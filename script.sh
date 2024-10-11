@@ -1,3 +1,4 @@
 #!/bin/bash
-
-echo "hello world"
+target="/etc"
+count=$(find "$target" -type -f | wc -l)
+echo "The number of regular files in $target: $count"
