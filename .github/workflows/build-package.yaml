@@ -30,15 +30,18 @@ jobs:
 
     - name: Build DEB Package
       run: |
-        mkdir -p deb-build
-        cp -r deb deb-build/
-        cd deb-build
-        dpkg-deb --build deb
+        mkdir -p deb-build/DEBIAN
+        mkdir -p deb-build/usr/local/bin
+        cp deb/control deb-build/DEBIAN/
+        cp script.sh deb-build/usr/local/bin/
+        dpkg-deb --build deb-build
+        mv deb-build/script.deb deb-build/debproject.deb
+
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: built-packages
+        name: build-packages
         path: |
           rpm-build/RPMS/
-          deb-build/deb.deb
+          deb-build/debproject.deb
