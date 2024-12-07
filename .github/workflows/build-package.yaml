@@ -1,0 +1,44 @@
+name: Build RPM and DEB Packages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y rpm dpkg-dev
+
+    - name: Build RPM Package
+      run: |
+        mkdir -p rpm-build/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+        cp rpm/script.sh rpm-build/SOURCES/
+        cp rpm/script.spec rpm-build/SPECS/
+        rpmbuild --define "_topdir $(pwd)/rpm-build" -ba rpm-build/SPECS/script.spec
+
+    - name: Build DEB Package
+      run: |
+        mkdir -p deb-build
+        cp -r deb deb-build/
+        cd deb-build
+        dpkg-deb --build deb
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: built-packages
+        path: |
+          rpm-build/RPMS/
+          deb-build/deb.deb
