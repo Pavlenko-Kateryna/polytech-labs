@@ -30,12 +30,11 @@ jobs:
 
     - name: Build DEB Package
       run: |
-        mkdir -p deb-build/script/DEBIAN
-        mkdir -p deb-build/script/usr/local/bin
-        cp deb/control deb-build/script/DEBIAN/
-        cp script.sh deb-build/script/usr/local/bin/
-        dpkg-deb --build deb-build/script
-        mv deb-build/script.deb deb-build/debproject.deb
+        mkdir -p deb-build/debproject/DEBIAN
+        mkdir -p deb-build/debproject/usr/local/bin
+        cp deb/control deb-build/debproject/DEBIAN/
+        cp script.sh deb-build/debproject/usr/local/bin/
+        dpkg-deb --build deb-build/debproject
 
 
     - name: Upload Artifacts
