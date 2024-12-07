@@ -1,0 +1,7 @@
+Package: script
+Version: 1.0
+Section: utils
+Priority: optional
+Architecture: all
+Maintainer: Kateryna <katyapavlenko768@gmail.com>
+Description: deb package which contains bash script
